@@ -7,7 +7,7 @@ import { Juego } from '../../clases/juego';
 })
 export class AdivinaMasListadoComponent implements OnInit {
   public listadoParaCompartir: Array<any>;
-  constructor() { this.listadoParaCompartir = new Array<any>()}
+  constructor() { this.listadoParaCompartir = new Array<any>(); }
 
 
   ngOnInit() {

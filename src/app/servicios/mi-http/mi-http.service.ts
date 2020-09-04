@@ -13,7 +13,7 @@ export class MiHttpService {
 
   constructor( public http: Http ) { }
 
-  public httpGetP ( url: string)
+  public httpGetP( url: string)
   {
     return this.http
     .get( url )
@@ -32,7 +32,7 @@ export class MiHttpService {
     });
   }
 
-  public httpGetO ( url: string): Observable<Response>
+  public httpGetO( url: string): Observable<Response>
   {
     return this.http.get( url )
       .map( ( res: Response ) => res.json())
@@ -40,12 +40,12 @@ export class MiHttpService {
   }
 
 
-  private extractData ( res: Response )
+  private extractData( res: Response )
   {
     return res.json() || {};
   }
 
-  private handleError ( error: Response | any )
+  private handleError( error: Response | any )
   {
     return error;
   }

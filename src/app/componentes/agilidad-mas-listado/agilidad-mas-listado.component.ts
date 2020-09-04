@@ -7,7 +7,7 @@ import { Juego } from '../../clases/juego';
 })
 export class AgilidadMasListadoComponent implements OnInit {
   public listadoParaCompartir: Array<any>;
-  constructor() { this.listadoParaCompartir = new Array<any>()}
+  constructor() { this.listadoParaCompartir = new Array<any>(); }
 
   ngOnInit() {
   }
@@ -15,6 +15,6 @@ export class AgilidadMasListadoComponent implements OnInit {
   tomarJuegoTerminado(juego: Juego)
   {
     this.listadoParaCompartir.push(juego);
-    console.info("en app",this.listadoParaCompartir);
+    console.info('en app', this.listadoParaCompartir);
   }
 }
