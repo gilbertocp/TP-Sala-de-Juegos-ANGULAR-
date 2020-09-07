@@ -34,22 +34,24 @@ const MiRuteo = [
 {path: 'Principal' , component: PrincipalComponent},
 {path: 'Listado' , component: ListadoComponent},
 {path: 'Paises' , component: ListadoDePaisesComponent},
-
-{ path: 'Juegos' ,
-component: JuegosComponent ,
-children:
-     [{path: '' , component: MenuCardComponent},
-     {path: 'Adivina' , component: AdivinaElNumeroComponent},
-      {path: 'AdivinaMasListado' , component: AdivinaMasListadoComponent},
-      {path: 'AgilidadaMasListado' , component: AgilidadMasListadoComponent},
-      {path: 'Agilidad' , component: AgilidadAritmeticaComponent}]
+{ 
+  path: 'Juegos' ,
+  component: JuegosComponent ,
+  children:[
+    {path: '' , component: MenuCardComponent},
+    {path: 'Adivina' , component: AdivinaElNumeroComponent},
+    {path: 'AdivinaMasListado' , component: AdivinaMasListadoComponent},
+    {path: 'AgilidadaMasListado' , component: AgilidadMasListadoComponent},
+    {path: 'Agilidad' , component: AgilidadAritmeticaComponent}
+  ]
 },
 {path: '**' , component: ErrorComponent},
-{path: 'error' , component: ErrorComponent}];
+{path: 'error' , component: ErrorComponent}]
+;
 
 @NgModule({
   imports: [
-    RouterModule.forRoot(MiRuteo)
+    RouterModule.forRoot(MiRuteo, {useHash: true})
   ],
   exports: [
     RouterModule
