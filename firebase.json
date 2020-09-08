@@ -1,5 +1,6 @@
 {	
   "hosting": {	
+    "predeploy": "ng build",
     "public": "dist/sala-de-juegos",	
     "ignore": [	
       "firebase.json",	
