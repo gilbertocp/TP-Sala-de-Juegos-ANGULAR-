@@ -1,0 +1,87 @@
+<div class="container p-5">
+  <div class="row">
+    <h2 class="col-12 text-center bg-primary">Piedra Papel Tijera</h2>
+  </div>
+
+  <br> 
+  <div class="row" *ngIf="!seleccionado">
+    <div class="col text-center bg-dark">
+      <h3>
+        Seleccione una opción
+      </h3>
+    </div>
+  </div>
+
+  <div class="row" *ngIf="!seleccionado">
+    <div class="col">
+      <img src="/assets/imagenes/rock.png" alt="Piedra">
+    </div>
+    <div class="col">
+      <img src="/assets/imagenes/paper.png" alt="Papel">
+    </div>
+    <div class="col">
+      <img src="/assets/imagenes/scissors.png" alt="Tijera">
+    </div>
+  </div>
+
+  <div class="row" *ngIf="seleccionado">
+    <div class="col">
+      <h3 class="text-center bg-dark">Jugador</h3>
+    </div>
+
+    <div class="col">
+      <h3 class="text-center bg-dark">Computadora</h3>
+    </div>
+  </div>
+
+  <div class="row" *ngIf="seleccionado">
+    <div class="col-sm-6">
+      <img [src]="'assets/imagenes/' + nuevoJuego.eleccionUsuario + '.png'" alt="nuevoJuego.eleccionUsuario" style="transform: rotateY(180deg);">
+    </div>
+    <div class="col-sm-6">
+      <img [src]="'assets/imagenes/' + nuevoJuego.eleccionJuego + '.png'" alt="nuevoJuego.eleccionUsuario">
+    </div>
+  </div>
+
+  <div class="row" *ngIf="seleccionado">
+    <button class="btn btn-block btn-outline-success" (click)="volverAJugar()">Volver a Jugar</button>
+  </div>
+
+  <div class="row" *ngIf="!seleccionado">
+    <div class="col">
+      <button class="btn btn-outline-success btn-block" data-figura="rock" (click)="opcionSeleccionada($event)">Piedra</button>
+    </div>
+    <div class="col">
+      <button class="btn btn-outline-success btn-block" data-figura="paper" (click)="opcionSeleccionada($event)">Papel</button>
+    </div>
+    <div class="col">
+      <button class="btn btn-outline-success btn-block" data-figura="scissors"  (click)="opcionSeleccionada($event)">Tijera</button>
+    </div>
+  </div>
+</div>
+
+
+<!-- Button trigger modal -->
+<button [hidden]="true"  id="botonVentanaModal" type="button" class="btn btn-primary" data-toggle="modal" data-target="#staticBackdrop">
+  Launch static backdrop modal
+</button>
+
+<!-- Modal -->
+<div class="modal fade" id="staticBackdrop" data-backdrop="static" data-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="staticBackdropLabel">Aviso</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        {{nuevoJuego.gano ? 'Usted ha ganado !!':'Usted ha perdido :('}}
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+      </div>
+    </div>
+  </div>
+</div>

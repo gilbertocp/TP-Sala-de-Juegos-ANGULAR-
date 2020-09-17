@@ -1,13 +1,31 @@
 import { Component, OnInit } from '@angular/core';
+import { JuegoAnagrama } from '../../clases/juego-anagrama';
 
 @Component({
   selector: 'app-anagrama',
   templateUrl: './anagrama.component.html',
-  styleUrls: ['./anagrama.component.css']
+  styleUrls: ['./anagrama.component.scss']
 })
 export class AnagramaComponent implements OnInit {
 
-  constructor() { }
+  nuevoJuego: JuegoAnagrama;
+  juegoGanado: boolean;
+
+  constructor() { 
+    this.nuevoJuego = new JuegoAnagrama();
+    console.log(this.nuevoJuego);
+  }
+
+  verificarPalabras() {
+    if(this.nuevoJuego.verificar())
+      this.juegoGanado = true;
+    else
+      this.juegoGanado = false;
+
+    document.getElementById("botonVentanaModal").click();
+    this.nuevoJuego = new JuegoAnagrama();
+  }
+
 
   ngOnInit(): void {
   }

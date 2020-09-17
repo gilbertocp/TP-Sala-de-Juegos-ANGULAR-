@@ -54,6 +54,11 @@ import { AgmCoreModule } from '@agm/core';
 import { InputJugadoresComponent } from './componentes/input-jugadores/input-jugadores.component';
 import { SexoPipe } from './pipes/sexo.pipe';
 
+import { MaterialModule } from './material/material.module';
+import { TatetiComponent } from './componentes/tateti/tateti.component';
+import { PiedraPapelTijeraComponent } from './componentes/piedra-papel-tijera/piedra-papel-tijera.component';
+import { MemotestComponent } from './componentes/memotest/memotest.component';
+
 @NgModule({
   declarations: [
     AppComponent,
@@ -78,7 +83,10 @@ import { SexoPipe } from './pipes/sexo.pipe';
     MapaDeGoogleComponent,
     JugadoresListadoComponent,
     InputJugadoresComponent,
-    SexoPipe
+    SexoPipe,
+    TatetiComponent,
+    PiedraPapelTijeraComponent,
+    MemotestComponent
   ],
   imports: [
     BrowserModule,
@@ -87,7 +95,8 @@ import { SexoPipe } from './pipes/sexo.pipe';
     HttpModule,
     AgmCoreModule.forRoot({
       apiKey: 'AIzaSyB6f8x4IjRlesQ3oETc6BXYQHVRTOlY3Ys'
-    })
+    }),
+    MaterialModule
     // NgbModule.forRoot(MiRuteo),
     // importo el ruteo
     // RouterModule.forRoot(MiRuteo)

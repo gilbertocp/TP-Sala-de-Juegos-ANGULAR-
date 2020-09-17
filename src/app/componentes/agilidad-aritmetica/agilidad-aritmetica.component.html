@@ -1,38 +1,63 @@
-<!--The content below is only a placeholder and can be replaced.-->
-<!--app-menu></app-menu-->
-<!-- index.html -->
-
-
-<form name="juego">
-  <ul>
-     <li>
-     Primer número: <input [(ngModel)]="nuevoJuego.numeroIngresado" placeholder="ingrese numero" name="numeroIngresado" type="text" class="form-control" style="width:50%" readonly/>
-    
-    </li>
-    <li>
-     Operador: <input [(ngModel)]="nuevoJuego.numeroIngresado" placeholder="ingrese numero" name="numeroIngresado" type="text" class="form-control" style="width:50%" readonly/>
-      
-    </li>
-    <li>
-     Segundo número: <input [(ngModel)]="nuevoJuego.numeroIngresado" placeholder="ingrese numero" name="numeroIngresado" type="text" class="form-control" style="width:50%" readonly/>
-      
-    </li>
-    <li>
-      Respuesta: <input [(ngModel)]="nuevoJuego.numeroIngresado" placeholder="ingrese numero" name="numeroIngresado" type="text" class="form-control" style="width:50%"/>
-       
-     </li>
-    <li>
-      <h2 [hidden]="ocultarVerificar" ><button (click)="verificar()" class="btn btn-success btn-lg">Verificar {{Tiempo}} </button></h2>
-    </li>
-    <li>
-      <h2 [hidden]="!ocultarVerificar"><button  (click)="NuevoJuego()"  class="btn btn-info btn-lg">Nuevo</button></h2>
-    </li>
-    <li>
-      <h2><p><i class="fa fa-spinner fa-spin"></i>Esperando numero...</p></h2>
+<div class="container mt-5">
+  <h2 class="text-center">Agilidad Aritmetica</h2>
+  <div class="card p-5 animated fadeIn fast shadow border-info">
+    <div class="d-flex justify-content-center align-items-center">
+      <div class="card-body border-danger">
+        <form>
+          <div class="form-group">
+            <input [(ngModel)]="nuevoJuego.primerNumero" name="primerNumero" type="text" id="primerNumero" readonly>
+          </div>
   
-      <h3 [hidden]="!nuevoJuego.gano">usted adivino el número</h3>
-      <h3 [hidden]="nuevoJuego.gano">usted aún no gano </h3>
-    </li>
-  </ul>
+          <div class="form-group">
+            <input [(ngModel)]="nuevoJuego.segundoNumero" name="segundoNumero" type="text" id="segundoNumero" readonly>
+          </div>
   
-  </form>
+          <div class="form-group">
+            <input [(ngModel)]="nuevoJuego.operador" name="operador" type="text" id="operador" readonly>
+          </div>
+  
+          <div class="form-group">
+            <input [(ngModel)]="nuevoJuego.respuestaUsuario" placeholder="Respuesta" name="respuestaUsuario" type="text" id="respuestaUsuario">
+          </div>
+        </form>
+  
+        <h2 [hidden]="ocultarVerificar" ><button  class="btn btn-success btn-lg">Verificar {{Tiempo}} </button></h2>
+        <h2 [hidden]="!ocultarVerificar"><button  (click)="NuevoJuego()"  class="btn btn-info btn-lg">Nuevo</button></h2>
+        
+      </div>
+
+      <div [hidden]="ocultarVerificar" class="card">
+        <div class="card-body">
+          <h3>Cuanto es ? {{nuevoJuego.primerNumero}} {{nuevoJuego.operador}} {{nuevoJuego.segundoNumero}}</h3>
+        </div>
+      </div>
+
+      
+    </div>
+  </div> 
+</div>
+
+<!-- Button trigger modal -->
+<button [hidden]="true"  id="botonVentanaModal" type="button" class="btn btn-primary" data-toggle="modal" data-target="#staticBackdrop">
+  Launch static backdrop modal
+</button>
+
+<!-- Modal -->
+<div class="modal fade" id="staticBackdrop" data-backdrop="static" data-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="staticBackdropLabel">Modal title</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        {{juegoGanado ? 'Usted ha gando':'Usted ha perdido'}}
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+      </div>
+    </div>
+  </div>
+</div>

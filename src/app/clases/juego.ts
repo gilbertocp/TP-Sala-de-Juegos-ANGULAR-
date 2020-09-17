@@ -14,17 +14,13 @@ export abstract class Juego {
     if (jugador) {
       this.jugador = jugador;
     } else {
-      this.jugador = 'natalia natalia';
+      this.jugador = 'Anónimo';
     }
   }
-
-
-
 
   public abstract verificar(): boolean;
 
   public retornarAyuda() {
-
     return 'NO hay Ayuda definida';
   }
 }

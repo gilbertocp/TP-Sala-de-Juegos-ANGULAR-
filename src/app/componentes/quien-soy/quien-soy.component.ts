@@ -12,8 +12,9 @@ export class QuienSoyComponent implements OnInit {
 
   ngOnInit(): void {
     this.route.fragment.subscribe(id => {
-      const element = document.querySelector("#" + id);
-      if (element) element.scrollIntoView();
+      const element = document.querySelector('#' + id);
+      console.log(element);
+      if (element) { element.scrollIntoView(); }
     });
   }
 
