@@ -13,7 +13,8 @@ export class JuegoAnagrama extends Juego{
 
   private mapearPalabra(str: string): any {
     let charObj = {};
-    str.replace(/[^\w]/g,"").toLowerCase();
+
+    str = str.trim();
 
     for(let char of str) 
       charObj[char] = charObj[char+1] || 1;

@@ -13,6 +13,7 @@ export class AnagramaComponent implements OnInit {
 
   constructor() { 
     this.nuevoJuego = new JuegoAnagrama();
+    this.juegoGanado = false;
     console.log(this.nuevoJuego);
   }
 
