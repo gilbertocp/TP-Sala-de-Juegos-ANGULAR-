@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { JuegoServiceService } from '../../servicios/juego-service.service';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-listado',
@@ -10,13 +11,15 @@ export class ListadoComponent implements OnInit {
   public listadoParaCompartir: Array<any>;
    miServicioJuego: JuegoServiceService;
 
-  constructor(servicioJuego: JuegoServiceService) {
+  constructor(
+    servicioJuego: JuegoServiceService,
+    private router: Router
+  ) {
     this.miServicioJuego = servicioJuego;
 
   }
 
   ngOnInit() {
-
   }
 
   llamaService(){

@@ -1,4 +1,3 @@
-import { log } from 'util';
 import { Injectable } from '@angular/core';
 
 import { Http, Response } from '@angular/http';

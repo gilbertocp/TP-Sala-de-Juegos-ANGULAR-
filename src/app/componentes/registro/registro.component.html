@@ -1,34 +1,42 @@
-<div class="container">
+<div class="container animated fadeIn fast">
   <div class="card mt-5 p-5">
     <div class="card-body">
-      <form action="">
+      <form [formGroup]="registerForm" (ngSubmit)="onRegister()" *ngIf="!mostrarAviso else avisoMsj">
         <fieldset>
           <legend class="text-center">Registro</legend>
+
           <div class="form-group">
-            <input type="text" placeholder="Usuario" class="form-control">
+            <input type="text" formControlName="apodo" placeholder="Apodo" class="form-control">
+          </div>
+
+          <div class="form-group">
+            <input type="text" formControlName="email" placeholder="Email" class="form-control">
+          </div>
+
+          <div class="form-group">
+            <input type="password" formControlName="clave" placeholder="Clave" class="form-control"> 
           </div>
   
           <div class="form-group">
-            <input type="password" placeholder="Clave" class="form-control"> 
-          </div>
-
-          <div class="form-group">
-            <input type="password" placeholder="Repita la clave" class="form-control"> 
-          </div>
-          
-          <div class="form-group">
-            <input type="submit" value="Enviar" class="form-control btn btn-primary">
+            <input type="submit" value="Enviar" class="form-control btn btn-primary" *ngIf="!mostrarSpinner">
+            <button class="form-control btn btn-primary" type="button" *ngIf="mostrarSpinner">
+              <span class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span>
+              Cargando. . .
+            </button>
           </div> 
         </fieldset>
       </form>
+
+      <ng-template #avisoMsj>
+        <h5>{{aviso}}</h5>
+        <a routerLink="/Registro" (click)="onVolver()">Volver</a>
+      </ng-template>
     </div>
 
     <div class="card-footer">
-      <div class="d-flex">
-        <div class="form-group">
-          <button routerLink="/" class="btn btn-outline-danger">Cancelar</button> &nbsp;
-          <button routerLink="/Login" class="btn btn-outline-success">Iniciar Sesión</button>
-        </div>
+      <div class="d-flex justify-content-between align-items-center w-100">
+        <button routerLink="/" class="btn btn-outline-danger">Cancelar</button>
+        <span>Desea <a routerLink="/Login">Iniciar Sesión</a> ?</span>
       </div>
     </div>
   </div>

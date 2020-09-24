@@ -1,8 +1,10 @@
 import { Component, OnInit } from '@angular/core';
-import { Router, ActivatedRoute, ParamMap } from '@angular/router';
+import { AuthService } from '../../servicios/auth/auth.service';
+import { FormControl, FormGroup } from '@angular/forms';
+import { AngularFirestore } from '@angular/fire/firestore';
+import { firestore, auth } from 'firebase/app';
+import { Router } from '@angular/router';
 
-import {Subscription} from 'rxjs';
-import {TimerObservable} from 'rxjs/observable/TimerObservable';
 @Component({
   selector: 'app-login',
   templateUrl: './login.component.html',
@@ -10,72 +12,79 @@ import {TimerObservable} from 'rxjs/observable/TimerObservable';
 })
 export class LoginComponent implements OnInit {
 
-  private subscription: Subscription;
-  usuario = '';
-  clave = '';
-  progreso: number;
-  progresoMensaje = 'esperando...';
-  logeando = true;
-  ProgresoDeAncho: string;
+  mostrarAviso = false;
+  mostrarSpinner = false;
+  aviso = '';
 
-  clase = 'progress-bar progress-bar-info progress-bar-striped ';
+  loginForm = new FormGroup({
+    email: new FormControl(''),
+    clave: new FormControl('')
+  });
 
   constructor(
-    private route: ActivatedRoute,
-    private router: Router) {
-      this.progreso = 0;
-      this.ProgresoDeAncho = '0%';
-
-  }
+    private authSvc: AuthService,
+    private db: AngularFirestore,
+    private router: Router
+  ) { }
 
   ngOnInit() {
+    if (this.authSvc.isLogged()) { this.router.navigate(['/Principal']); }
   }
 
-  Entrar() {
-    if (this.usuario === 'admin' && this.clave === 'admin') {
+  async onLogin() {
+    const {email, clave} = this.loginForm.value;
+    this.mostrarSpinner = true;
+
+    try {
+      const cred = await this.authSvc.login(email, clave);
+
+      await this.db.collection('usuariosLog').add({
+        email, fechaIngreso: firestore.Timestamp.fromDate(new Date())
+      });
+
+      localStorage.setItem('key_saladejuegos', JSON.stringify(cred));
+
       this.router.navigate(['/Principal']);
-    }
-  }
-  MoverBarraDeProgreso() {
+    } catch (err) {
 
-    this.logeando = false;
-    this.clase = 'progress-bar progress-bar-danger progress-bar-striped active';
-    this.progresoMensaje = 'NSA spy...';
-    const timer = TimerObservable.create(200, 50);
-    this.subscription = timer.subscribe(t => {
-      console.log('inicio');
-      this.progreso = this.progreso + 1;
-      this.ProgresoDeAncho = this.progreso + 20 + '%';
-      switch (this.progreso) {
-        case 15:
-        this.clase = 'progress-bar progress-bar-warning progress-bar-striped active';
-        this.progresoMensaje = 'Verificando ADN...';
-        break;
-        case 30:
-          this.clase = 'progress-bar progress-bar-Info progress-bar-striped active';
-          this.progresoMensaje = 'Adjustando encriptación..';
-          break;
-          case 60:
-          this.clase = 'progress-bar progress-bar-success progress-bar-striped active';
-          this.progresoMensaje = 'Recompilando Info del dispositivo..';
-          break;
-          case 75:
-          this.clase = 'progress-bar progress-bar-success progress-bar-striped active';
-          this.progresoMensaje = 'Recompilando claves facebook, gmail, chats..';
-          break;
-          case 85:
-          this.clase = 'progress-bar progress-bar-success progress-bar-striped active';
-          this.progresoMensaje = 'Instalando KeyLogger..';
+      switch (err.code) {
+        case 'auth/wrong-password':
+          this.aviso = 'La contraseña ingresada no es válida';
           break;
 
-        case 100:
-          console.log('final');
-          this.subscription.unsubscribe();
-          this.Entrar();
+        case 'auth/invalid-email':
+          this.aviso = 'El email ingresado no es válido';
+          break;
+
+        case 'auth/user-not-found':
+          this.aviso = 'El usuario no está registrado';
+          break;
+
+        default:
+          this.aviso = 'No se ha podido iniciar sesión, Intentelo de nuevo';
           break;
       }
-    });
-    // this.logeando=true;
+
+      this.mostrarAviso = true;
+    } finally {
+      this.mostrarSpinner = false;
+    }
   }
 
+  ingresarInvitado(): void {
+    this.mostrarAviso = false;
+    this.loginForm = new FormGroup({
+      email: new FormControl('invitado@invitado.com'),
+      clave: new FormControl('invitado')
+    });
+    (document.querySelector('#btnSubmitLogin') as HTMLFormElement).click();
+  }
+
+  onVolver() {
+    this.mostrarAviso = false;
+    this.loginForm = new FormGroup({
+      email: new FormControl(''),
+      clave: new FormControl('')
+    });
+  }
 }

@@ -1,1 +1,38 @@
-<p>tateti works!</p>
+<div class="container p-5">
+  <div class="d-flex flex-column align-items-center justify-content-center" *ngIf="!juegoIniciado else juego" style="height: 300px;"> 
+    <button class="btn btn-info btn-block h-100 btnCirculo" (click)="figuraSeleccionada($event)"><span class="display-4">ELEGIR O</span></button>
+    <button class="btn btn-secondary btn-block h-100 btnEquis" (click)="figuraSeleccionada($event)"><span class="display-4">ELEGIR X</span></button>
+  </div>
+  <ng-template #juego>
+    <div class="tablero">
+      <div *ngFor="let idx of nuevoJuego.NUMEROS_CELDAS; let i;" [id]="i" class="celda" (click)="dibujar($event)"></div>
+    </div>
+    <div class="alert alert-warning border-primary mt-3" role="alert">
+      <span style="width: 26px;">{{this.turno ? 'Es tu turno !': 'Es turno de la computadora !'}}</span>
+    </div>
+  </ng-template>
+</div>
+
+<!-- Button trigger modal -->
+<button [hidden]="true"  id="botonVentanaModal" type="button" class="btn btn-primary" data-toggle="modal" data-target="#staticBackdrop">
+  Launch static backdrop modal
+</button>
+<!-- Modal -->
+<div class="modal fade" id="staticBackdrop" data-backdrop="static" data-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="staticBackdropLabel">Fin del Juego</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        {{this.nuevoJuego.gano ? 'Usted ha ganado':'Usted ha perdido'}}
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+      </div>
+    </div>
+  </div>
+</div>

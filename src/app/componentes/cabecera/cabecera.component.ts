@@ -1,4 +1,6 @@
 import { Component, OnInit } from '@angular/core';
+import { Router } from '@angular/router';
+import { AuthService } from '../../servicios/auth/auth.service';
 
 @Component({
   selector: 'app-cabecera',
@@ -7,9 +9,18 @@ import { Component, OnInit } from '@angular/core';
 })
 export class CabeceraComponent implements OnInit {
 
-  constructor() { }
+  constructor(
+    public authSvc: AuthService,
+    private router: Router
+  ) { }
 
   ngOnInit(): void {
   }
 
+  cerrarSesion(): void {
+    localStorage.removeItem('key_saladejuegos');
+    this.authSvc.logout()
+      .then(() => this.router.navigate(['/Login']))
+      .catch(() => this.router.navigate(['/Principal']));
+  }
 }

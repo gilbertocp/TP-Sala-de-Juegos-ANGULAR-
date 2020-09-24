@@ -12,7 +12,7 @@ export class PiedraPapelTijeraComponent implements OnInit {
   nuevoJuego: JuegoPiedraPapelTijera;
   seleccionado: boolean;
 
-  constructor() { 
+  constructor() {
     this.nuevoJuego = new JuegoPiedraPapelTijera();
     this.seleccionado = false;
     console.log(this.nuevoJuego);
@@ -25,12 +25,14 @@ export class PiedraPapelTijeraComponent implements OnInit {
     this.nuevoJuego.eleccionUsuario = (e.target as HTMLButtonElement).getAttribute('data-figura');
     this.seleccionado = true;
 
-    if(this.nuevoJuego.verificar()) 
+    if (this.nuevoJuego.verificar()) {
       this.nuevoJuego.gano = true;
-    else
+    }
+    else {
       this.nuevoJuego.gano = false;
+    }
 
-    document.getElementById("botonVentanaModal").click();
+    document.getElementById('botonVentanaModal').click();
   }
 
   volverAJugar(): void{

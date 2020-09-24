@@ -1,7 +1,7 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 // importo del module principal
-import { RouterModule, Routes } from '@angular/router';
+import { RouterModule, Routes, CanActivate } from '@angular/router';
 import { AdivinaElNumeroComponent } from '../componentes/adivina-el-numero/adivina-el-numero.component';
 import { ListadoDeResultadosComponent } from '../componentes/listado-de-resultados/listado-de-resultados.component';
 import { LoginComponent } from '../componentes/login/login.component';
@@ -25,13 +25,16 @@ import { PiedraPapelTijeraComponent } from '../componentes/piedra-papel-tijera/p
 import { TatetiComponent } from '../componentes/tateti/tateti.component';
 import { MemotestComponent } from '../componentes/memotest/memotest.component';
 import { AnagramaComponent } from '../componentes/anagrama/anagrama.component';
+import { AuthGuard } from '../core/auth.guard';
+import { ElahorcadoComponent } from '../componentes/elahorcado/elahorcado.component';
 
 
 // declaro donde quiero que se dirija
 const MiRuteo = [
   {
     path: 'Jugadores',
-    component: JugadoresListadoComponent
+    component: JugadoresListadoComponent,
+    canActivate: [AuthGuard]
   },
   {
     path: '',
@@ -39,11 +42,12 @@ const MiRuteo = [
   },
   {
     path: 'Login',
-    component: LoginComponent
+    component: LoginComponent,
   },
   {
     path: 'Mapa',
-    component: MapaDeGoogleComponent
+    component: MapaDeGoogleComponent,
+    canActivate: [AuthGuard]
   },
   {
     path: 'QuienSoy',
@@ -51,7 +55,7 @@ const MiRuteo = [
   },
   {
     path: 'Registro',
-    component: RegistroComponent
+    component: RegistroComponent,
   },
   {
     path: 'Principal',
@@ -59,7 +63,8 @@ const MiRuteo = [
   },
   {
     path: 'Listado',
-    component: ListadoComponent
+    component: ListadoComponent,
+    canActivate: [AuthGuard]
   },
   {
     path: 'Paises',
@@ -68,6 +73,7 @@ const MiRuteo = [
   {
     path: 'Juegos',
     component: JuegosComponent,
+    canActivate: [AuthGuard],
     children: [
       {
         path: '',
@@ -104,6 +110,10 @@ const MiRuteo = [
       {
         path: 'Anagrama',
         component: AnagramaComponent
+      },
+      {
+        path: 'Ahorcado',
+        component: ElahorcadoComponent
       }
     ]
   },

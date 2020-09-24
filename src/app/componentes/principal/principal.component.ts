@@ -1,4 +1,6 @@
 import { Component, OnInit } from '@angular/core';
+import { AuthService } from '../../servicios/auth/auth.service';
+import { Router } from '@angular/router';
 
 
 @Component({
@@ -7,15 +9,17 @@ import { Component, OnInit } from '@angular/core';
   styleUrls: ['./principal.component.css']
 })
 export class PrincipalComponent implements OnInit {
- public status: any = {
-    isFirstOpen: true,
-    isFirstDisabled: false
-  };
-  constructor() {  }
 
-  ngOnInit() {
+  public usuarioLogueado: boolean = null;
+  public apodoUsuario = '';
+
+  constructor(private authSvc: AuthService
+  ) {  }
+
+  async ngOnInit() {
   }
 
-
+  async cerrarSesion() {
+  }
 
 }

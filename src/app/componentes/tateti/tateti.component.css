@@ -1,0 +1,36 @@
+.tablero {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(100px, 1fr));
+  grid-template-rows: repeat(3, minmax(200px, 1fr));
+}
+
+.celda {
+  border:1px solid gray;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.celda:first-child,
+.celda:nth-child(2),
+.celda:nth-child(3) {
+  border-top: none;
+}
+
+.celda:nth-child(3n + 1) {
+  border-left: none;
+}
+
+.celda:nth-child(3n + 3) {
+  border-right: none;
+}
+
+.celda:last-child,
+.celda:nth-child(8),
+.celda:nth-child(7) {
+  border-bottom: none;
+}
+
+span {
+  font-size: 55px;
+}

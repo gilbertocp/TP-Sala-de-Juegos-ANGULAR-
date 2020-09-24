@@ -1,22 +1,31 @@
-<div class="container">
+<div class="container animated fadeIn fast">
   <div class="card mt-5 p-5">
     <div class="card-body">
-      <form action="">
+      <form [formGroup]="loginForm" (ngSubmit)="onLogin()" *ngIf="!mostrarAviso else avisoMsj">
         <fieldset>
           <legend class="text-center">Iniciar Sesión</legend>
           <div class="form-group">
-            <input type="text" placeholder="Usuario" class="form-control">
+            <input type="text" placeholder="Email" formControlName="email" class="form-control">
           </div>
   
           <div class="form-group">
-            <input type="password" placeholder="Clave" class="form-control"> 
+            <input type="password" placeholder="Clave" formControlName="clave" class="form-control"> 
           </div>
 
           <div class="form-group">
-            <input type="submit" value="Enviar" class="form-control btn btn-primary">
+            <input id="btnSubmitLogin" type="submit" value="Enviar" class="form-control btn btn-primary"  *ngIf="!mostrarSpinner">
+            <button class="form-control btn btn-primary" type="button" *ngIf="mostrarSpinner">
+              <span class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span>
+              Ingresando. . .
+            </button>
           </div>
         </fieldset>
       </form>
+
+      <ng-template #avisoMsj>
+        <h5>{{aviso}}</h5>
+        <a routerLink="/Login" (click)="onVolver()">Volver</a>
+      </ng-template>
     </div>
 
     <div class="card-footer">
@@ -27,7 +36,7 @@
         </div>
 
         <span>
-          Te olvidaste <a href="#">la clave</a>
+          <button class="btn btn-outline-light" (click)="ingresarInvitado()">Ingresar como invitado</button>
         </span>
       </div>
     </div>

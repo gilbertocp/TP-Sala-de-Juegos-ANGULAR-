@@ -7,9 +7,9 @@ import { NavigationEnd, Router } from '@angular/router';
 })
 export class MenuCardComponent implements OnInit {
 
-  constructor(private router:Router) { }
+  constructor(private router: Router) { }
 
   ngOnInit() {
-    window.scrollTo(0,0);
+    window.scrollTo(0, 0);
   }
 }

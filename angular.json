@@ -19,7 +19,12 @@
               "rxjs/add/operator/switchMap",
               "rxjs/add/operator/catch",
               "rxjs/add/operator/map",
-              "rxjs/add/operator/toPromise"
+              "rxjs/add/operator/toPromise",
+              "firebase",
+              "@firebase/auth",
+              "@firebase/firestore",
+              "@firebase/app",
+              "firebase/app"
             ],
             "outputPath": "dist/sala-de-juegos",
             "index": "src/index.html",
@@ -135,6 +140,10 @@
               "devServerTarget": "sala-de-juegos:serve:production"
             }
           }
+        },
+        "deploy": {
+          "builder": "@angular/fire:deploy",
+          "options": {}
         }
       }
     }

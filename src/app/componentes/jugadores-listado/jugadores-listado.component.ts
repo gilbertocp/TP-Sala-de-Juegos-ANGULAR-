@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { JugadoresService } from '../../servicios/jugadores.service';
+import { Router } from '@angular/router';
 @Component({
   selector: 'app-jugadores-listado',
   templateUrl: './jugadores-listado.component.html',
@@ -10,12 +11,10 @@ export class JugadoresListadoComponent implements OnInit {
   listado: any;
   miJugadoresServicio: JugadoresService;
 
-    constructor(serviceJugadores: JugadoresService) {
+    constructor(serviceJugadores: JugadoresService,
+                private router: Router) {
       this.miJugadoresServicio = serviceJugadores;
-
     }
-
-
 
   ngOnInit() {
   }

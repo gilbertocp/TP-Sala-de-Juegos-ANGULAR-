@@ -11,22 +11,23 @@ export class AnagramaComponent implements OnInit {
   nuevoJuego: JuegoAnagrama;
   juegoGanado: boolean;
 
-  constructor() { 
+  constructor() {
     this.nuevoJuego = new JuegoAnagrama();
     this.juegoGanado = false;
     console.log(this.nuevoJuego);
   }
 
   verificarPalabras() {
-    if(this.nuevoJuego.verificar())
+    if (this.nuevoJuego.verificar()) {
       this.juegoGanado = true;
-    else
+    }
+    else {
       this.juegoGanado = false;
+    }
 
-    document.getElementById("botonVentanaModal").click();
+    document.getElementById('botonVentanaModal').click();
     this.nuevoJuego = new JuegoAnagrama();
   }
-
 
   ngOnInit(): void {
   }
