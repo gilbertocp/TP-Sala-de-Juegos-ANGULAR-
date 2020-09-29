@@ -9,17 +9,19 @@ import { JuegoMemotest } from '../../clases/juego-memotest';
 export class MemotestComponent implements OnInit {
 
   juegoNuevo: JuegoMemotest;
+  juegoEmpezado: boolean;
   cartasSeleccionadas = [];
   cartasGanadas = [];
 
   constructor() {
-    this.empezarJuego();
+    this.juegoEmpezado = false;
   }
 
   ngOnInit() {
   }
 
   empezarJuego(): void {
+    this.juegoEmpezado = true;
     this.juegoNuevo = new JuegoMemotest();
     this.juegoNuevo.cartas = this.juegoNuevo.barajarCartas(this.juegoNuevo.cartas);
     this.cartasSeleccionadas = [];
@@ -32,7 +34,6 @@ export class MemotestComponent implements OnInit {
 
     const imgUno = cartaUno.children[1].children[0] as HTMLImageElement;
     const imgDos = cartaDos.children[1].children[0] as HTMLImageElement;
-
 
     if(cartaUno.id === cartaDos.id) {
       this.cartasSeleccionadas = [];
@@ -52,7 +53,9 @@ export class MemotestComponent implements OnInit {
     this.cartasSeleccionadas = [];
 
     if(this.cartasGanadas.length === this.juegoNuevo.cartas.length / 2) {
-      alert('Has ganado');
+      this.juegoNuevo.gano = true;
+      this.juegoEmpezado = false;
+      (document.querySelector('#botonVentanaModal') as HTMLButtonElement).click();
     }
   }
 

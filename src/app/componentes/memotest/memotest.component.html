@@ -1,11 +1,39 @@
 <div class="container">
-  <div class="tablero">
+  
+  <div class="d-flex align-items-center justify-content-center" style="height: 500px;" *ngIf="!juegoEmpezado">
+    <button class="btn btn-primary btn-block text-center h-50 rounded-pill" (click)="empezarJuego()">
+      <span class="display-4">Empezar a jugar Memotest</span>
+    </button>
+  </div>
+
+  <div class="tablero" *ngIf="juegoEmpezado">
     <div class="carta" *ngFor="let carta of juegoNuevo.cartas; let i = index;" [id]="i" #cartaDiv (click)="voltearCarta(cartaDiv)">
       <div class="frente">
         <img src="assets/imagenes/blank.png" alt="blank">
       </div>
       <div class="dorso">
         <img [src]="carta.img" [alt]="carta.nombre" [name]="carta.nombre">
+      </div>
+    </div>
+  </div>
+  
+</div>
+
+
+<!-- Button trigger modal -->
+<button [hidden]="true"  id="botonVentanaModal" type="button" class="btn btn-primary" data-toggle="modal" data-target="#staticBackdrop">
+  Launch static backdrop modal
+</button>
+
+<!-- Modal -->
+<div class="modal fade" id="staticBackdrop" data-backdrop="static" data-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-body">
+        {{ juegoEmpezado && juegoNuevo.gano ? 'Usted ha ganado !!':'Usted ha perdido :('}}
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
       </div>
     </div>
   </div>
