@@ -1,8 +1,12 @@
 <div class="container">
-
-    <h3>Puntaje:<span id="result"></span></h3>
-  
-    <div class="grid">
+  <div class="tablero">
+    <div class="carta" *ngFor="let carta of juegoNuevo.cartas; let i = index;" [id]="i" #cartaDiv (click)="voltearCarta(cartaDiv)">
+      <div class="frente">
+        <img src="assets/imagenes/blank.png" alt="blank">
+      </div>
+      <div class="dorso">
+        <img [src]="carta.img" [alt]="carta.nombre" [name]="carta.nombre">
+      </div>
     </div>
-
   </div>
+</div>
