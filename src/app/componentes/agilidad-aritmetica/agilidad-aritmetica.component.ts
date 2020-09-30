@@ -1,9 +1,6 @@
-import { Component, OnInit , Input, Output, EventEmitter} from '@angular/core';
+import { Component, OnInit, Output, EventEmitter} from '@angular/core';
 import { JuegoAgilidad } from '../../clases/juego-agilidad';
 
-import {Subscription} from 'rxjs';
-import {TimerObservable} from 'rxjs/observable/TimerObservable';
-import { textChangeRangeIsUnchanged } from 'typescript';
 @Component({
   selector: 'app-agilidad-aritmetica',
   templateUrl: './agilidad-aritmetica.component.html',
@@ -16,7 +13,6 @@ export class AgilidadAritmeticaComponent implements OnInit {
   ocultarVerificar: boolean;
   Tiempo: number;
   repetidor: any;
-  private subscription: Subscription;
   comenzado = false;
   juegoGanado = false;
 
@@ -52,8 +48,10 @@ export class AgilidadAritmeticaComponent implements OnInit {
           this.juegoGanado = true;
         }
         else {
+          
           console.log(this.nuevoJuego, 'Perdio');
           this.juegoGanado = false;
+
         }
         document.getElementById('botonVentanaModal').click();
 

@@ -2,7 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { AuthService } from '../../servicios/auth/auth.service';
 import { FormControl, FormGroup } from '@angular/forms';
 import { AngularFirestore } from '@angular/fire/firestore';
-import { firestore, auth } from 'firebase/app';
+import { firestore } from 'firebase/app';
 import { Router } from '@angular/router';
 
 @Component({

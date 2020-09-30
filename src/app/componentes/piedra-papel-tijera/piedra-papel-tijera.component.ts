@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
-import { isThisTypeNode } from 'typescript';
 import { JuegoPiedraPapelTijera } from '../../clases/juego-piedra-papel-tijera';
+import { PartidasService } from '../../servicios/partidas/partidas.service';
+import { AuthService } from '../../servicios/auth/auth.service';
 
 @Component({
   selector: 'app-piedra-papel-tijera',
@@ -12,10 +13,12 @@ export class PiedraPapelTijeraComponent implements OnInit {
   nuevoJuego: JuegoPiedraPapelTijera;
   seleccionado: boolean;
 
-  constructor() {
+  constructor(private partidasSvc: PartidasService, private authSvc: AuthService) {
     this.nuevoJuego = new JuegoPiedraPapelTijera();
     this.seleccionado = false;
-    console.log(this.nuevoJuego);
+    this.authSvc.user$.subscribe((usuario:any) => this.nuevoJuego.jugador = usuario.apodo ,console.log);
+    this.partidasSvc.getPartidas.subscribe(console.log, console.log);
+    setTimeout(() => console.log(this.nuevoJuego), 900);
   }
 
   ngOnInit(): void {
@@ -27,9 +30,11 @@ export class PiedraPapelTijeraComponent implements OnInit {
 
     if (this.nuevoJuego.verificar()) {
       this.nuevoJuego.gano = true;
+      this.partidasSvc.agregarPartida(this.nuevoJuego);
     }
     else {
       this.nuevoJuego.gano = false;
+      this.partidasSvc.agregarPartida(this.nuevoJuego);
     }
 
     document.getElementById('botonVentanaModal').click();
