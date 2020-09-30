@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { PartidasService } from '../../servicios/partidas/partidas.service';
 
 @Component({
   selector: 'app-elahorcado',
@@ -11,7 +12,7 @@ export class ElahorcadoComponent implements OnInit {
   wrongLetters = [];
   playable = true;
 
-  constructor() {
+  constructor(private partidasSvc: PartidasService) {
     this.palabra = this.obtenerPalabra();
   }
 
@@ -91,6 +92,7 @@ export class ElahorcadoComponent implements OnInit {
     const innerWord = wordEl.innerText.replace(/[ \n]/g, '');
 
     if (innerWord === this.palabra) {
+      
       finalMessage.innerText = 'Ganaste 😃';
       popup.style.display = 'flex';
     }

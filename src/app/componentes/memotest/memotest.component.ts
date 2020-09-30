@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { JuegoMemotest } from '../../clases/juego-memotest';
+import { PartidasService } from '../../servicios/partidas/partidas.service';
 
 @Component({
   selector: 'app-memotest',
@@ -13,7 +14,7 @@ export class MemotestComponent implements OnInit {
   cartasSeleccionadas = [];
   cartasGanadas = [];
 
-  constructor() {
+  constructor(private partidasSvc: PartidasService) {
     this.juegoEmpezado = false;
   }
 
@@ -55,7 +56,8 @@ export class MemotestComponent implements OnInit {
     if(this.cartasGanadas.length === this.juegoNuevo.cartas.length / 2) {
       this.juegoNuevo.gano = true;
       this.juegoEmpezado = false;
-      (document.querySelector('#botonVentanaModal') as HTMLButtonElement).click();
+      this.partidasSvc.juegoTerminado(this.juegoNuevo);
+      this.mostrarMensaje('Has encontrado todos los pares !!');
     }
   }
 
@@ -73,4 +75,8 @@ export class MemotestComponent implements OnInit {
     }
   }
 
+  mostrarMensaje(msj: string): void {
+    (document.querySelector('#mensajeVentanaModal') as HTMLDivElement).innerHTML = msj;
+    (document.querySelector('#botonVentanaModal') as HTMLButtonElement).click();
+  }
 }

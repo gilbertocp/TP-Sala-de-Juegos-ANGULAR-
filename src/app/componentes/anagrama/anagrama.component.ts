@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { JuegoAnagrama } from '../../clases/juego-anagrama';
+import { PartidasService } from '../../servicios/partidas/partidas.service';
 
 @Component({
   selector: 'app-anagrama',
@@ -9,27 +10,32 @@ import { JuegoAnagrama } from '../../clases/juego-anagrama';
 export class AnagramaComponent implements OnInit {
 
   nuevoJuego: JuegoAnagrama;
-  juegoGanado: boolean;
 
-  constructor() {
+  constructor(private partidasSvc: PartidasService) {
     this.nuevoJuego = new JuegoAnagrama();
-    this.juegoGanado = false;
     console.log(this.nuevoJuego);
   }
 
   verificarPalabras() {
     if (this.nuevoJuego.verificar()) {
-      this.juegoGanado = true;
+      this.nuevoJuego.gano = true;
+      this.mostrarMensaje('Has ganado, las palabras son anagramas!!');
     }
     else {
-      this.juegoGanado = false;
+      this.nuevoJuego.gano = false;
+      this.mostrarMensaje('Has Perdido, las palabras no son anagramas!!');
     }
 
-    document.getElementById('botonVentanaModal').click();
+    this.partidasSvc.juegoTerminado(this.nuevoJuego);
     this.nuevoJuego = new JuegoAnagrama();
   }
 
   ngOnInit(): void {
+  }
+
+  mostrarMensaje(msj: string): void {
+    (document.querySelector('#mensajeVentanaModal') as HTMLDivElement).innerHTML = msj;
+    (document.querySelector('#botonVentanaModal') as HTMLButtonElement).click();
   }
 
 }

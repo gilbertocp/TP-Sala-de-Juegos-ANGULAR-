@@ -1,5 +1,6 @@
-import { Component, OnInit, Output, EventEmitter} from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { JuegoAgilidad } from '../../clases/juego-agilidad';
+import { PartidasService } from '../../servicios/partidas/partidas.service';
 
 @Component({
   selector: 'app-agilidad-aritmetica',
@@ -8,7 +9,6 @@ import { JuegoAgilidad } from '../../clases/juego-agilidad';
 })
 export class AgilidadAritmeticaComponent implements OnInit {
 
-  @Output() enviarJuego: EventEmitter<any> = new EventEmitter<any>();
   nuevoJuego: JuegoAgilidad;
   ocultarVerificar: boolean;
   Tiempo: number;
@@ -19,7 +19,7 @@ export class AgilidadAritmeticaComponent implements OnInit {
   ngOnInit() {
   }
 
-  constructor() {
+  constructor(private partidasSvc: PartidasService) {
       this.ocultarVerificar = true;
 
       this.Tiempo = 5;
@@ -43,15 +43,17 @@ export class AgilidadAritmeticaComponent implements OnInit {
       if (this.Tiempo == 0 ) {
         // clearInterval(this.repetidor);
         if (this.nuevoJuego.verificar()) {
-          this.enviarJuego.emit(this.nuevoJuego);
           console.log(this.nuevoJuego, 'Gano');
           this.juegoGanado = true;
+          this.nuevoJuego.gano = true;
+          this.partidasSvc.juegoTerminado(this.nuevoJuego);
         }
         else {
           
           console.log(this.nuevoJuego, 'Perdio');
           this.juegoGanado = false;
-
+          this.nuevoJuego.gano = false;
+          this.partidasSvc.juegoTerminado(this.nuevoJuego);
         }
         document.getElementById('botonVentanaModal').click();
 

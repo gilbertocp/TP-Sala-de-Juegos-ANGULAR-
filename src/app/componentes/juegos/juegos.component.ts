@@ -13,4 +13,11 @@ export class JuegosComponent implements OnInit {
   ngOnInit(): void {
   }
 
+  recibirJuegoGanado(e) {
+    if(localStorage.getItem('juegos') !== undefined) 
+      localStorage.setItem('juegos', '');
+    
+    
+  }
+
 }

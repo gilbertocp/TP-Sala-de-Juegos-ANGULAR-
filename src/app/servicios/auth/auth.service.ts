@@ -11,7 +11,7 @@ import { AngularFirestore } from '@angular/fire/firestore';
 export class AuthService {
   public user$: Observable<User>;
 
-  constructor(public afAuth: AngularFireAuth,  private afs: AngularFirestore) { 
+  constructor(public afAuth: AngularFireAuth, private afs: AngularFirestore) { 
     this.user$ = this.afAuth.authState.pipe(
       switchMap((user) => {
         if (user) {

@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { JuegoTateti } from '../../clases/juego-tateti';
-import { timer } from 'rxjs';
+import { PartidasService } from '../../servicios/partidas/partidas.service';
 
 @Component({
   selector: 'app-tateti',
@@ -10,7 +10,6 @@ import { timer } from 'rxjs';
 export class TatetiComponent implements OnInit {
 
   nuevoJuego: JuegoTateti;
-  juegoGanado: boolean;
   juegoIniciado: boolean;
   turno: boolean; // si es true el turno de juegador, caso contrario false
 
@@ -18,7 +17,7 @@ export class TatetiComponent implements OnInit {
   celdasDibujadasUsuario: HTMLDivElement[] = [];
   celdasDibujadasComputadora: HTMLDivElement[] = [];
 
-  constructor() {
+  constructor(private partidasSvc: PartidasService) {
   }
 
   ngOnInit(): void {
@@ -34,14 +33,14 @@ export class TatetiComponent implements OnInit {
   dibujarUsuario(el: HTMLDivElement): void {
 
     if(this.turno !== true) {
-      alert('Espera que no es tu turno');
+      this.mostrarVentanaModal('Espera que no es tu turno');
       return;
     }
 
     const celdaYaEstaDibujada = this.celdasDibujadas.some(celda => celda.id === el.id);
     
     if(celdaYaEstaDibujada) {
-      alert('Esta celda ya esta dibujada escoje otra');
+      this.mostrarVentanaModal('Esta celda ya esta dibujada escoje otra');
       return;
     }
 
@@ -61,7 +60,7 @@ export class TatetiComponent implements OnInit {
     const celdasVacias = celdas.filter(cel => {
       return !this.celdasDibujadas.some(cel2 => cel2.id === cel.id);
     });
-
+    
     const celdaADibujar = celdasVacias[Math.floor(Math.random() * celdasVacias.length)];
 
     celdaADibujar.className += ' ' + this.nuevoJuego.seleccionComputadora;
@@ -94,10 +93,9 @@ export class TatetiComponent implements OnInit {
     });
 
     this.juegoIniciado = true;
-    this.turno = true;
-    // if (!this.turno) {
-    //   setTimeout(() => this.dibujarComputadora(), 150);
-    // }
+    if (!this.turno) {
+      setTimeout(() => this.dibujarComputadora(), 350);
+    }
   }
 
   verificarGanador(celdasDibujadas: HTMLDivElement[]): boolean {
@@ -122,21 +120,29 @@ export class TatetiComponent implements OnInit {
     let finDelJuego = false;
     
     if(this.verificarGanador(this.celdasDibujadasUsuario)){
-      alert('El usuario gana')
-      finDelJuego = true
+      this.mostrarVentanaModal('El usuario ha ganado !!');
+      this.nuevoJuego.gano = true;
+      finDelJuego = true;
     }
     else if(this.verificarGanador(this.celdasDibujadasComputadora)){
-      alert('Computadora gana')
+      this.mostrarVentanaModal('Computadora gana')
       finDelJuego = true;
     }
     else if(this.celdasLlenas()) {
-      alert('Hay empate');
+      this.mostrarVentanaModal('Hay empate');
       finDelJuego = true;
+    }
+
+    if(finDelJuego) {
+      this.juegoIniciado = false;
+      this.partidasSvc.juegoTerminado(this.nuevoJuego);
     }
 
     return finDelJuego;
   }
 
-  finDelJuego(): void {
+  mostrarVentanaModal(msj: string): void {
+    (document.querySelector('#mensajeModal') as HTMLDivElement).innerHTML = msj;
+    (document.querySelector('#botonVentanaModal') as HTMLButtonElement).click();
   }
 }
