@@ -5,7 +5,7 @@
   </div>
   <ng-template #juego>
     <div class="tablero">
-      <div *ngFor="let idx of nuevoJuego.NUMEROS_CELDAS; let i;" [id]="i" class="celda" (click)="dibujar($event)"></div>
+      <div *ngFor="let idx of nuevoJuego.NUMEROS_CELDAS; let i;" [id]="i" class="celda" (click)="dibujarUsuario(celdaDiv)" #celdaDiv></div>
     </div>
     <div class="alert alert-warning border-primary mt-3" role="alert">
       <span style="width: 26px;">{{this.turno ? 'Es tu turno !': 'Es turno de la computadora !'}}</span>
@@ -28,7 +28,7 @@
         </button>
       </div>
       <div class="modal-body">
-        {{this.nuevoJuego.gano ? 'Usted ha ganado':'Usted ha perdido'}}
+        {{juegoGanado ? 'Usted ha ganado':'Usted ha perdido'}}
       </div>
       <div class="modal-footer">
         <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
