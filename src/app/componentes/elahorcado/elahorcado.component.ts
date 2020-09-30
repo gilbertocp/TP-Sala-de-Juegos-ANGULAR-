@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { PartidasService } from '../../servicios/partidas/partidas.service';
+import { JuegoElAhorcado } from '../../clases/juego-elahorcado';
 
 @Component({
   selector: 'app-elahorcado',
@@ -7,141 +8,104 @@ import { PartidasService } from '../../servicios/partidas/partidas.service';
   styleUrls: ['./elahorcado.component.css'],
 })
 export class ElahorcadoComponent implements OnInit {
-  palabra: string;
-  correctLetters = [];
-  wrongLetters = [];
-  playable = true;
+
+  juegoNuevo: JuegoElAhorcado;
+  urlImg: string;
+  intentos: number;
+  reiniciar: boolean;
+  letrasIngresadas = [];
+  letrasIngresadasCorrectas = [];
+
 
   constructor(private partidasSvc: PartidasService) {
-    this.palabra = this.obtenerPalabra();
+    this.iniciarJuego();
+    window.addEventListener('keyup', this.letraIngresada.bind(this)); 
   }
 
-  ngOnInit(): void {
-    const playAgainBtn = document.getElementById('play-button');
-    const popup = document.getElementById('popup-container');
+  ngOnInit() {  }
 
-    // Restart game and play again
-    playAgainBtn.addEventListener('click', () => {
-      this.playable = true;
-
-      //  Empty arrays
-      this.correctLetters.splice(0);
-      this.wrongLetters.splice(0);
-      this.palabra = this.obtenerPalabra();
-
-      this.displayWord();
-
-      this.updateWrongLettersEl();
-
-      popup.style.display = 'none';
-    });
-    // Keydown letter press
-    window.addEventListener('keydown', (e) => {
-      if (this.playable) {
-        if (e.keyCode >= 65 && e.keyCode <= 90) {
-          const letter = e.key.toLowerCase();
-
-          if (this.palabra.includes(letter)) {
-            if (!this.correctLetters.includes(letter)) {
-              this.correctLetters.push(letter);
-
-              this.displayWord();
-            } else {
-              this.showNotification();
-            }
-          } else {
-            if (!this.wrongLetters.includes(letter)) {
-              this.wrongLetters.push(letter);
-
-              this.updateWrongLettersEl();
-            } else {
-              this.showNotification();
-            }
-          }
-        }
-      }
-    });
-
-    this.displayWord();
+  iniciarJuego(): void {
+    this.juegoNuevo = new JuegoElAhorcado();
+    console.log(this.juegoNuevo.palabraAdivinar);
+    this.letrasIngresadas = [];
+    this.letrasIngresadasCorrectas = [];
+    this.intentos = 0;
+    this.reiniciar = true;
+    this.urlImg = `assets/imagenes/ahorcado_img/`;
   }
 
-  obtenerPalabra(): string {
-    const palabras = ['programacion', 'computadora', 'redes', 'aplicacion'];
+  letraIngresada(e: KeyboardEvent): void {
 
-    return palabras[Math.floor(Math.random() * palabras.length)];
-  }
+    if(!e.key.match(/^[A-Za-z]$/))
+      return;
 
-  displayWord() {
-    const popup = document.getElementById('popup-container');
-    const wordEl = document.getElementById('word');
-    const finalMessage = document.getElementById('final-message');
+    if(this.letrasIngresadas.includes(e.key)) {
+      this.mostrarMensaje('Ya ingresaste la letra '+ e.key +', proba con otra');
+      return;
+    }
 
-    wordEl.innerHTML = `
-      ${this.palabra
-        .split('')
-        .map(
-          (letter) => `
-            <span class="letter">
-              ${this.correctLetters.includes(letter) ? letter : ''}
-            </span>
-          `
-        )
-        .join('')}
-    `;
-
-    const innerWord = wordEl.innerText.replace(/[ \n]/g, '');
-
-    if (innerWord === this.palabra) {
+    if(this.verificarLetra(e.key)) {
+      const letras = Array.from(document.querySelectorAll('.letra')) as HTMLDivElement[];
+      const indices = []; 
       
-      finalMessage.innerText = 'Ganaste 😃';
-      popup.style.display = 'flex';
+      this.juegoNuevo.palabraAdivinar.split('').forEach((letra, idx) => {
+        if(letra === e.key)
+          return indices.push(idx);
+      });
+
+      indices.forEach(idx => {
+        letras[idx].innerHTML = e.key;
+        this.letrasIngresadasCorrectas.push(e.key);
+      });
+
+      this.letrasIngresadas.push(e.key);
+    }
+    else {
+      this.sumarIntentosFallidos();
+      this.letrasIngresadas.push(e.key);
+    }
+
+    if(this.verificarJuego()) {
+      setTimeout(() => this.iniciarJuego(), 1000);
     }
   }
 
-  updateWrongLettersEl() {
-    // Display wrong letters
-    const figureParts = document.querySelectorAll('.figure-part');
-    const wrongLettersEl = document.getElementById('wrong-letters');
-    const finalMessage = document.getElementById('final-message');
-    const finalMessageRevealWord = document.getElementById(
-      'final-message-reveal-word'
-    );
-    const popup = document.getElementById('popup-container');
+  verificarJuego(): boolean {
+    let finDelJuego = false;
 
-    wrongLettersEl.innerHTML = `
-      ${this.wrongLetters.length > 0 ? '<p>Wrong</p>' : ''}
-      ${this.wrongLetters.map((letter) => `<span>${letter}</span>`)}
-    `;
-
-    // Display parts
-    figureParts.forEach((part: any, index) => {
-      const errors = this.wrongLetters.length;
-
-      if (index < errors) {
-        part.style.display = 'block';
-      } else {
-        part.style.display = 'none';
-      }
-    });
-
-    // Check if lost
-    if (this.wrongLetters.length === figureParts.length) {
-      finalMessage.innerText = 'Perdiste. 😕';
-      finalMessageRevealWord.innerText = `La palabra era: ${this.palabra}`;
-      popup.style.display = 'flex';
-
-      this.playable = false;
+    if(this.intentos > 5){ 
+      finDelJuego = true;
     }
+
+    
+    if(this.letrasIngresadasCorrectas.length === this.juegoNuevo.palabraAdivinar.split('').length) {
+      this.juegoNuevo.gano = true;
+      finDelJuego = true;
+    }
+
+    if(finDelJuego) {
+      this.reiniciar = false;
+      this.partidasSvc.juegoTerminado(this.juegoNuevo);
+      this.mostrarMensaje(
+        this.juegoNuevo.gano 
+        ? 'Has ganado, lograste adivinar la palabra !!'
+        : `Perdista, la palabra era ${this.juegoNuevo.palabraAdivinar}`
+      );
+    }
+
+    return finDelJuego;
   }
 
-  // Show notification
-  showNotification() {
-    const notification = document.getElementById('notification-container');
+  verificarLetra(letra: string): Boolean {
+    return this.juegoNuevo.palabraAdivinar.split('').includes(letra);
+  }
+  
+  sumarIntentosFallidos(): void {
+    this.intentos++;
+  }
 
-    notification.classList.add('show');
-
-    setTimeout(() => {
-      notification.classList.remove('show');
-    }, 2000);
+  mostrarMensaje(msj: string): void {
+    (document.querySelector('#mensajeVentanaModal') as HTMLDivElement).innerHTML = msj;
+    (document.querySelector('#botonVentanaModal') as HTMLButtonElement).click();
   }
 }
