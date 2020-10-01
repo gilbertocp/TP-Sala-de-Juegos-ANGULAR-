@@ -26,7 +26,7 @@ export class JugadoresService {
   }
 
   get getJugadores(): Observable<any> {
-    return this.jugadores
+    return this.jugadores;
   }
 
 

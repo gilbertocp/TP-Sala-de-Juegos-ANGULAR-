@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
-import { JuegoServiceService } from '../../servicios/juego-service.service';
 import { Router } from '@angular/router';
+import { PartidasService } from '../../servicios/partidas/partidas.service';
 
 @Component({
   selector: 'app-listado',
@@ -8,29 +8,9 @@ import { Router } from '@angular/router';
   styleUrls: ['./listado.component.css']
 })
 export class ListadoComponent implements OnInit {
-  public listadoParaCompartir: Array<any>;
-   miServicioJuego: JuegoServiceService;
 
-  constructor(
-    servicioJuego: JuegoServiceService,
-    private router: Router
-  ) {
-    this.miServicioJuego = servicioJuego;
-
+  constructor(public partidasSvc: PartidasService) { 
   }
 
-  ngOnInit() {
-  }
-
-  llamaService(){
-    console.log('llamaService');
-    this.listadoParaCompartir = this.miServicioJuego.listar();
-  }
-
-  llamaServicePromesa(){
-    console.log('llamaServicePromesa');
-    this.miServicioJuego.listarPromesa().then((listado) => {
-        this.listadoParaCompartir = listado;
-    });
-  }
+  ngOnInit() {  }
 }

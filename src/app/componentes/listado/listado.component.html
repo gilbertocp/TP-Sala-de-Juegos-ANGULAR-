@@ -3,12 +3,9 @@
 <input type="button" (click)="llamaServicePromesa()" class="btn btn-info" value="Pulsame Promesa" --> 
 
 <!-- Centered Pills -->
-<ul class="nav navbar">
-  <li class="active"><a routerLink="/Principal">Sala de Juegos</a></li>
-  <li><a (click)="llamaService()">Servicio</a></li>
-  <li><a (click)="llamaServicePromesa()">Serv Promesa</a></li>
-  <li><a (click)="llamaServicePromesa()">Serv observable</a></li>
-</ul>
-
-<app-listado-de-resultados [listado]="listadoParaCompartir"> </app-listado-de-resultados>
+<nav class="nav nav-pills nav-fill">
+  <a class="nav-link active" routerLinkActive="active" routerLink="/">Ir al Inicio</a>
+  <a class="nav-link" routerLinkActive="active" routerLink="/Juegos">Ir a la sala de juegos</a>
+</nav>
+<app-listado-de-resultados [listado]="partidasSvc.getPartidas"></app-listado-de-resultados>
 

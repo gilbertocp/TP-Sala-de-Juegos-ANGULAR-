@@ -1,25 +1,20 @@
-<!--div *ngFor="let juego of listado">
-
-<p> {{juego.nombre}} </p>
-<p> {{juego.jugador}} </p>
-
-</div-->
-
-<table class="table table-condensed">
+<table class="table text-center">
   <thead>
     <tr>
-      <th>Juego</th>
-      <th>Jugador</th>
-      <th>Resultado</th>
+      <th scope="col" class="bg-info">#</th>
+      <th scope="col" class="bg-success">Juego</th>
+      <th scope="col" class="bg-warning">Jugador</th>
+      <th scope="col" class="bg-dark">Fecha</th>
+      <th scope="col" class="bg-danger">Resultado</th>
     </tr>
   </thead>
   <tbody>
-    <tr *ngFor="let juego of listado">
-      <td>{{juego.nombre}} </td>
-      <td>{{juego.jugador}} </td> 
-      <td *ngIf="juego.gano">Gano </td>   
-      <td *ngIf="!juego.gano">Perdio</td>     
+    <tr *ngFor="let jugador of listado | async; let idx = index">
+      <td>{{idx + 1}}</td>
+      <td>{{jugador.nombreJuego}}</td>
+      <td>{{jugador.jugador}}</td>
+      <td>{{jugador.fecha.seconds * 1000 | date:'dd-MM-yyyy' }}</td>
+      <td>{{jugador.resultado ?'Ganado': 'Perdido'}}</td>
     </tr>
-   
   </tbody>
 </table>

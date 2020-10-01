@@ -1,29 +1,23 @@
-<ul class="nav nav-pills nav-justified">
-  <li class="active"><a routerLink="/Principal">Ir a inicio</a></li>
-  <li><a (click)="TraerTodos()">Todos los jugadores</a></li>
-  <li><a (click)="TraerGanadores()">Los ganadores</a></li>
-  <li><a (click)="TraerPerdedores()">Los perdedores</a></li>
-</ul>
+<nav class="nav nav-pills flex-column flex-sm-row">
+  <a class="flex-sm-fill text-sm-center nav-link active" routerLink="/">Ir al inicio</a>
+</nav>
 
-
-
-<table class="table table-condensed">
+<table class="table table-bordered table-hover text-center">
   <thead>
     <tr>
-      <th>usuario</th>
-      <th>cuit</th>
-      <th>sexo</th>
-      <th>gano</th>
+      <th scope="col">#</th>
+      <th scope="col">Apodo</th>
+      <th scope="col">Email</th>
+      <th scope="col">Fecha Ingreso</th>
     </tr>
   </thead>
   <tbody>
-    <tr *ngFor="let jugador of listado" >
-      <td>{{jugador.usuario}} </td>
-      <td>{{jugador.cuit}} </td> 
-      <td>{{jugador.sexo | sexo| uppercase}} </td> 
-      <td>{{jugador.gano}} </td> 
-      
+    <tr *ngFor="let jugador of jugadoresSvc.getJugadores | async; let i = index;">
+      <td>{{i+1}}</td>
+      <td>{{jugador.apodo}}</td>
+      <td>{{jugador.email}}</td>
+      <td>{{jugador.fechaIngreso.seconds * 1000 | date:'dd-MM-yyyy' }}</td>
     </tr>
-   
   </tbody>
 </table>
+
